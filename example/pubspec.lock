@@ -241,7 +241,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.0"
+    version: "0.0.1"
   proj4dart:
     dependency: transitive
     description:
@@ -353,4 +353,4 @@ packages:
     version: "2.0.0"
 sdks:
   dart: ">=3.7.0-0 <4.0.0"
-  flutter: ">=3.27.0"
+  flutter: ">=3.30.0"

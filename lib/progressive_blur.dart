@@ -27,6 +27,7 @@ class ProgressiveBlurWidget extends StatefulWidget {
     required this.sigma,
     required this.child,
     this.blurTextureDimensions = 128,
+    this.tintColor = Colors.transparent,
   }) : blurTexture = null;
 
   const ProgressiveBlurWidget.custom({
@@ -34,6 +35,7 @@ class ProgressiveBlurWidget extends StatefulWidget {
     required this.blurTexture,
     required this.sigma,
     required this.child,
+    this.tintColor = Colors.transparent,
   })  : linearGradientBlur = null,
         // Irrelevant in case of a custom blur texture
         blurTextureDimensions = -1;
@@ -62,6 +64,9 @@ class ProgressiveBlurWidget extends StatefulWidget {
 
   /// The standard deviation of the Gaussian blur.
   final double sigma;
+
+  /// Tint color to apply to the blurred area.
+  final Color tintColor;
 
   /// The widget to be blurred.
   final Widget child;
@@ -148,6 +153,10 @@ class _ProgressiveBlurWidgetState extends State<ProgressiveBlurWidget> {
               shader.setFloat(1, scaledSize.height); // child_size.y
               shader.setFloat(2, widget.sigma); // blur_sigma
               shader.setFloat(3, 0.0); // blur_direction
+              shader.setFloat(4, widget.tintColor.r); // tint.r
+              shader.setFloat(5, widget.tintColor.g); // tint.g
+              shader.setFloat(6, widget.tintColor.b); // tint.b
+              shader.setFloat(7, widget.tintColor.a); // tint.a
 
               // Draw the first pass
               final paint = Paint()..shader = shader;
