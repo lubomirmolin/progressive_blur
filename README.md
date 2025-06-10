@@ -15,7 +15,7 @@ See the example folder for a complete example.
 ```dart
 import 'package:progressive_blur/progressive_blur.dart';
 
-// Simple gradient blur
+// Simple gradient blur with optional tint
 ProgressiveBlurWidget(
   sigma: 24.0,
   linearGradientBlur: const LinearGradientBlur(
@@ -24,6 +24,7 @@ ProgressiveBlurWidget(
     start: Alignment.topCenter,
     end: Alignment.bottomCenter,
   ),
+  tintColor: Colors.orange.withOpacity(0.3), //optional
   child: ...
 );
 
@@ -33,6 +34,7 @@ ProgressiveBlurWidget(
 ProgressiveBlurWidget.custom(
   sigma: 24.0,
   blurTexture: [instance of ui.Image],
+  tintColor: Colors.purple.withOpacity(0.4), // optional
   child: ...,
 )
 ```

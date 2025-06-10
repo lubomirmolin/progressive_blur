@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:example/albums.dart';
 import 'package:figma_squircle/figma_squircle.dart';
@@ -76,8 +77,7 @@ class _MainPageState extends State<MainPage> {
               sliver: SliverLayoutBuilder(
                 builder: (context, constraints) {
                   const preferredItemSize = 160.0;
-                  final crossAxisCount =
-                      (constraints.crossAxisExtent / preferredItemSize).floor();
+                  final crossAxisCount = math.max(1, (constraints.crossAxisExtent / preferredItemSize).floor());
 
                   return SliverGrid.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -192,6 +192,7 @@ class _AlbumCardState extends State<_AlbumCard>
             cornerSmoothing: 0.6,
           ),
           child: ProgressiveBlurWidget(
+            tintColor: Colors.black.withValues(alpha: 0.5),
             linearGradientBlur: const LinearGradientBlur(
               values: [0, 1],
               stops: [0.5, 0.8],

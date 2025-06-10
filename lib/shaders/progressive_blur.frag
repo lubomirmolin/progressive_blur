@@ -10,14 +10,17 @@ uniform sampler2D blur_texture;
 uniform float blur_sigma;
 uniform float blur_direction; // 0 for horizontal, 1 for vertical
 
+uniform vec4 tint_color;
+
 out vec4 frag_color;
 
 void main() {
   vec2 uv = FlutterFragCoord().xy / child_size;
   
   // Squaring the blur texture value makes it look more consistent?
-  float sigma = blur_sigma * (pow(texture(blur_texture, uv).r, 2));
-  vec2 dir = blur_direction == 0.0? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+  float blur_value = pow(texture(blur_texture, uv).r, 2.0);
+  float sigma = blur_sigma * blur_value;
+  vec2 dir = blur_direction == 0.0 ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
 
   if (sigma < 1e-5) {
     frag_color = texture(child_texture, uv);
@@ -46,6 +49,8 @@ void main() {
 
     color += texture(child_texture, uv + offset) * weight;
   }
-  
-  frag_color = color / total_weight;
+
+  vec4 blurred = color / total_weight;
+  float tint_strength = blur_value * tint_color.a;
+  frag_color = mix(blurred, tint_color, tint_strength);
 }
