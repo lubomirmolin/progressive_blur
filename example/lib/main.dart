@@ -6,6 +6,7 @@ import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:palette_generator/palette_generator.dart';
 import 'package:progressive_blur/progressive_blur.dart';
 
 Future<void> main() async {
@@ -77,7 +78,10 @@ class _MainPageState extends State<MainPage> {
               sliver: SliverLayoutBuilder(
                 builder: (context, constraints) {
                   const preferredItemSize = 160.0;
-                  final crossAxisCount = math.max(1, (constraints.crossAxisExtent / preferredItemSize).floor());
+                  final crossAxisCount = math.max(
+                    1,
+                    (constraints.crossAxisExtent / preferredItemSize).floor(),
+                  );
 
                   return SliverGrid.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -165,6 +169,29 @@ class _AlbumCard extends StatefulWidget {
 
 class _AlbumCardState extends State<_AlbumCard>
     with AutomaticKeepAliveClientMixin {
+  Color? _prominentColor;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProminentColor();
+  }
+
+  Future<void> _loadProminentColor() async {
+    final palette = await PaletteGenerator.fromImageProvider(
+      NetworkImage(widget.imageUrl),
+    );
+
+    if (palette.dominantColor?.color != null) {
+      _prominentColor = Color.lerp(
+        palette.dominantColor?.color,
+        Colors.black,
+        0.5,
+      );
+      if (mounted) setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -192,7 +219,7 @@ class _AlbumCardState extends State<_AlbumCard>
             cornerSmoothing: 0.6,
           ),
           child: ProgressiveBlurWidget(
-            tintColor: Colors.black.withValues(alpha: 0.5),
+            tintColor: _prominentColor ?? Colors.black.withValues(alpha: 0.5),
             linearGradientBlur: const LinearGradientBlur(
               values: [0, 1],
               stops: [0.5, 0.8],

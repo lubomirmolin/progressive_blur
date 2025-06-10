@@ -24,7 +24,7 @@ ProgressiveBlurWidget(
     start: Alignment.topCenter,
     end: Alignment.bottomCenter,
   ),
-  tintColor: Colors.orange.withOpacity(0.3), //optional
+  tintColor: Colors.orange.withOpacity(0.3), // Optional tint color
   child: ...
 );
 
@@ -34,7 +34,7 @@ ProgressiveBlurWidget(
 ProgressiveBlurWidget.custom(
   sigma: 24.0,
   blurTexture: [instance of ui.Image],
-  tintColor: Colors.purple.withOpacity(0.4), // optional
+  tintColor: Colors.purple.withOpacity(0.4), // Optional tint color
   child: ...,
 )
 ```
